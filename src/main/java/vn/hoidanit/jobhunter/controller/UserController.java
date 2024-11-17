@@ -1,5 +1,7 @@
 package vn.hoidanit.jobhunter.controller;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.hoidanit.jobhunter.domain.User;
@@ -76,7 +78,11 @@ public class UserController {
 
    // fetch all users
    @GetMapping("/users")
-   public ResponseEntity<List<User>> getAllUser() {
+   public ResponseEntity<List<User>> getAllUser(
+        @RequestParam("current") Optional<String> currentOptional, 
+        @RequestParam("pageSize") Optional<String> pageSizeOptional ) {
+       String sCurrent = currentOptional.isPresent() ? currentOptional.get() : "";
+       String sPageSize = pageSizeOptional.isPresent() ? pageSizeOptional.get() : "";
        return ResponseEntity.status(HttpStatus.OK).body(userService.fetchAllUser());
    } 
 
